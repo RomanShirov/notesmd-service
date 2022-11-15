@@ -21,7 +21,6 @@ func main() {
 	}))
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		log.Info("Request")
 		return c.SendString("Hello, World!")
 	})
 
