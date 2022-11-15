@@ -2,7 +2,11 @@ module github.com/RomanShirov/notesmd-service
 
 go 1.18
 
-require github.com/gofiber/fiber/v2 v2.39.0
+require (
+	github.com/gofiber/fiber/v2 v2.39.0
+	github.com/joho/godotenv v1.4.0
+	github.com/sirupsen/logrus v1.9.0
+)
 
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
