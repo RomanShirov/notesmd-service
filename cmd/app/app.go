@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/RomanShirov/notesmd-service/internal/database"
+	"github.com/RomanShirov/notesmd-service/internal/handlers"
 	"github.com/RomanShirov/notesmd-service/internal/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -24,14 +25,14 @@ func main() {
 		}
 	}
 
+	db.InitDatabase()
+
 	app := fiber.New()
 	app.Use(logger.New(logger.Config{
 		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
 	}))
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World!")
-	})
+	handlers.InitAuthHandlers(app)
 
 	if os.Getenv("STAGE_STATUS") == "dev" {
 		utils.StartService(app)

@@ -31,8 +31,8 @@ func RollupMigrations() {
 		log.Fatalf("Migration error: %v", err)
 	}
 
-	if os.Getenv("CLEAR_DEPLOY") == "true" {
-		log.Info("CLEAR_DEPLOY: Rolling back migrations")
+	if os.Getenv("CLEAN_DEPLOY") == "true" {
+		log.Info("CLEAN_DEPLOY: Rolling back old migrations")
 		if err := goose.Down(db, "migrations"); err != nil {
 			log.Fatalf("Migration error: %v", err)
 		}
