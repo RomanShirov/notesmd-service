@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/RomanShirov/notesmd-service/internal/database"
 	"github.com/RomanShirov/notesmd-service/internal/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -13,6 +14,14 @@ func main() {
 	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatalf("Error loading .env file")
+	}
+
+	if os.Getenv("MIGRATIONS") == "true" {
+		log.Info("Starting migrations")
+		db.RollupMigrations()
+		if err != nil {
+			log.Fatalf("Database migration error: %v", err)
+		}
 	}
 
 	app := fiber.New()
