@@ -4,6 +4,7 @@ go 1.18
 
 require (
 	github.com/gofiber/fiber/v2 v2.39.0
+	github.com/golang-jwt/jwt/v4 v4.4.2
 	github.com/jackc/pgx/v5 v5.1.0
 	github.com/joho/godotenv v1.4.0
 	github.com/lib/pq v1.10.6

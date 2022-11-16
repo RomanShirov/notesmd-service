@@ -4,9 +4,9 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func GeneratePasswordHash(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-	return string(bytes), err
+func GeneratePasswordHash(password string) string {
+	bytes, _ := bcrypt.GenerateFromPassword([]byte(password), 5)
+	return string(bytes)
 }
 
 func ComparePasswords(password, hash string) bool {
