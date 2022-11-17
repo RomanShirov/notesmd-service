@@ -7,19 +7,19 @@ import (
 	"time"
 )
 
-func GenerateUserToken(email string) string {
+func GenerateUserToken(uid int) string {
 	claims := jwt.MapClaims{
-		"email": email,
-		"exp":   time.Now().Add(time.Hour * 8766).Unix(),
+		"user_id": uid,
+		"exp":     time.Now().Add(time.Hour * 8766).Unix(),
 	}
 	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	token, _ := tokenClaims.SignedString([]byte(os.Getenv("JWT_SECRET_KEY")))
 	return token
 }
 
-func GetUserFromToken(c *fiber.Ctx) string {
+func GetUserIdFromToken(c *fiber.Ctx) int {
 	user := c.Locals("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
-	email := claims["email"].(string)
-	return email
+	userId := claims["user_id"].(int)
+	return userId
 }

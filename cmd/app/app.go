@@ -33,6 +33,7 @@ func main() {
 	}))
 
 	handlers.InitAuthHandlers(app)
+	//handlers.InitNotesAPI(app)
 
 	if os.Getenv("STAGE_STATUS") == "dev" {
 		utils.StartService(app)

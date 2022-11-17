@@ -19,24 +19,26 @@ func InitAuthHandlers(app *fiber.App) {
 			Email:        email,
 			PasswordHash: crypto.GeneratePasswordHash(password),
 		}
-		err := db.CreateUser(context.Background(), user)
-		if err != nil {
+		uid, err := db.CreateUser(context.Background(), user)
+		if err != nil && uid == 0 {
 			return c.SendStatus(fiber.StatusUnauthorized)
 		}
-		token := crypto.GenerateUserToken(email)
-		return c.JSON(fiber.Map{"access_token": token})
+		token := crypto.GenerateUserToken(uid)
+		return c.JSON(fiber.Map{
+			"access_token": token,
+		})
 	})
 
 	auth.Post("/login", func(c *fiber.Ctx) error {
 		email := c.FormValue("email")
 		password := c.FormValue("password")
-		passwordHash, err := db.AuthenticateUser(context.Background(), email)
-		if err != nil {
+		uid, passwordHash, err := db.AuthenticateUser(context.Background(), email)
+		if err != nil && uid == 0 {
 			return c.SendStatus(fiber.StatusUnauthorized)
 		}
 
 		if crypto.ComparePasswords(password, passwordHash) {
-			token := crypto.GenerateUserToken(email)
+			token := crypto.GenerateUserToken(uid)
 			return c.JSON(fiber.Map{"access_token": token})
 		}
 
