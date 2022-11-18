@@ -86,7 +86,7 @@ func DeleteNote(ctx context.Context, uid float64, noteId string) error {
 }
 
 func GetFolderList(ctx context.Context, uid float64) ([]string, error) {
-	var folders []string
+	folders := []string{}
 	rows, err := dbConn.Query(context.Background(),
 		"SELECT DISTINCT folder FROM notes WHERE uploader_id = $1", uid)
 	if err != nil {
