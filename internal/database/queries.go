@@ -31,7 +31,7 @@ func AuthenticateUser(ctx context.Context, email string) (int, string, error) {
 func GetNotesBySelectedFolder(ctx context.Context, uid float64, folder string) ([]models.NoteListResponse, error) {
 	var notes []models.NoteListResponse
 	rows, err := dbConn.Query(context.Background(),
-		"SELECT id, uploader_id, folder, title, data FROM notes WHERE uploader_id = $1 AND folder = $2", uid, folder)
+		"SELECT id, uploader_id, folder, title, data FROM notes WHERE uploader_id = $1 AND folder = $2 ORDER BY id", uid, folder)
 	if err != nil {
 		return nil, err
 	}
