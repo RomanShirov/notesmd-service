@@ -1,20 +1,21 @@
 package handlers
 
 import (
+	"context"
+	"github.com/RomanShirov/notesmd-service/internal/crypto"
+	db "github.com/RomanShirov/notesmd-service/internal/database"
 	"github.com/gofiber/fiber/v2"
 )
 
-func InitNotesAPI(app *fiber.App) {
-	auth := app.Group("/api/notes")
+func InitFoldersAPI(app *fiber.App) {
+	folders := app.Group("/api/folders")
 
-	auth.Get("/:folder", func(c *fiber.Ctx) error {
-		requestFolder := c.Params("folder")
-		return c.JSON(fiber.Map{"folder": requestFolder})
+	folders.Get("/", func(c *fiber.Ctx) error {
+		userId := crypto.GetUserIdFromToken(c)
+		folderList, err := db.GetFolderList(context.Background(), userId)
+		if err != nil {
+			return c.SendStatus(fiber.StatusNotFound)
+		}
+		return c.JSON(folderList)
 	})
-
-	auth.Put("/", func(c *fiber.Ctx) error {
-		requestFolder := c.Params("folder")
-		return c.JSON(fiber.Map{"folder": requestFolder})
-	})
-
 }

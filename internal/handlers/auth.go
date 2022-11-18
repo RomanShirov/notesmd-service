@@ -9,7 +9,7 @@ import (
 )
 
 func InitAuthHandlers(app *fiber.App) {
-	auth := app.Group("/api/auth")
+	auth := app.Group("/api")
 
 	auth.Post("/register", func(c *fiber.Ctx) error {
 		email := c.FormValue("email")

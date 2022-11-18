@@ -17,9 +17,9 @@ func GenerateUserToken(uid int) string {
 	return token
 }
 
-func GetUserIdFromToken(c *fiber.Ctx) int {
+func GetUserIdFromToken(c *fiber.Ctx) float64 {
 	user := c.Locals("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
-	userId := claims["user_id"].(int)
+	userId := claims["user_id"].(float64)
 	return userId
 }
