@@ -4,7 +4,7 @@ service-deploy:
 	go build -o build/ cmd/app/app.go
 	cp .env build/
 	mkdir build/assets && cp -r internal/web/notesmd-app/frontend/dist/. build/assets
-	cd build && ./app
+	cd build && clear && ./app
 
 service-clear:
 	rm -r build/
