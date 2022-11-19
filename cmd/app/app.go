@@ -11,6 +11,7 @@ import (
 	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
 	"os"
+	"time"
 )
 
 func main() {
@@ -37,7 +38,20 @@ func main() {
 		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
 	}))
 
+	app.Static("/", "./assets", fiber.Static{
+		Compress:      true,
+		ByteRange:     true,
+		Browse:        true,
+		Index:         "index.html",
+		CacheDuration: 3600 * time.Second,
+		MaxAge:        3600,
+	})
+
 	handlers.InitAuthHandlers(app)
+
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendFile("./assets/index.html", true)
+	})
 
 	app.Use(jwtware.New(jwtware.Config{
 		SigningKey: []byte(os.Getenv("JWT_SECRET_KEY")),
