@@ -1,0 +1,26 @@
+version: "3"
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: "notesdb"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    ports:
+      - "5432:5432"
+
+  prometheus:
+    image: quay.io/prometheus/prometheus:latest
+    restart: unless-stopped
+    network_mode: "host"
+    volumes:
+      - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:latest
+    restart: unless-stopped
+    network_mode: "host"
+    expose:
+      - "3000"
+
+

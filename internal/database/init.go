@@ -11,10 +11,13 @@ var dbConn *pgx.Conn
 
 var err error
 
-func InitDatabase() {
-	dbConn, err = pgx.Connect(context.Background(), os.Getenv("DATABASE_URL"))
+func InitDatabase(dbConnURL string) {
+	log.Info("Starting connection")
+	dbConn, err = pgx.Connect(context.Background(), dbConnURL)
 	if err != nil {
 		log.Fatalf("Unable to connect to database: %v\n", err)
 		os.Exit(1)
 	}
+
+	log.Info("Connection successful")
 }
