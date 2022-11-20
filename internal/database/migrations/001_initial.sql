@@ -2,7 +2,7 @@
 CREATE TABLE users
 (
     id            SERIAL PRIMARY KEY,
-    email         text UNIQUE NOT NULL,
+    username      text UNIQUE NOT NULL,
     password_hash text        NOT NULL,
     published     text[],
     created_at    timestamp DEFAULT NOW()
@@ -15,7 +15,7 @@ CREATE TABLE notes
     folder      text NOT NULL,
     title       text NOT NULL,
     data        text,
-    hash   text,
+    hash        text,
     updated_at  timestamp DEFAULT NOW()
 );
 

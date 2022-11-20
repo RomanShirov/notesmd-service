@@ -1,7 +1,7 @@
 package models
 
 type AuthUserRequest struct {
-	Email        string
+	Username     string
 	PasswordHash string
 }
 

@@ -12,11 +12,11 @@ func InitAuthHandlers(app *fiber.App) {
 	auth := app.Group("/api")
 
 	auth.Post("/register", func(c *fiber.Ctx) error {
-		email := c.FormValue("email")
+		username := c.FormValue("username")
 		password := c.FormValue("password")
 
 		user := models.AuthUserRequest{
-			Email:        email,
+			Username:     username,
 			PasswordHash: crypto.GeneratePasswordHash(password),
 		}
 		uid, err := db.CreateUser(context.Background(), user)
@@ -30,9 +30,9 @@ func InitAuthHandlers(app *fiber.App) {
 	})
 
 	auth.Post("/login", func(c *fiber.Ctx) error {
-		email := c.FormValue("email")
+		username := c.FormValue("username")
 		password := c.FormValue("password")
-		uid, passwordHash, err := db.AuthenticateUser(context.Background(), email)
+		uid, passwordHash, err := db.AuthenticateUser(context.Background(), username)
 		if err != nil && uid == 0 {
 			return c.SendStatus(fiber.StatusUnauthorized)
 		}
