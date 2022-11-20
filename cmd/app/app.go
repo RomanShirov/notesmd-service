@@ -60,9 +60,11 @@ func main() {
 
 	handlers.InitAuthHandlers(app)
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendFile("./assets/index.html", true)
-	})
+	app.Get("/", handlers.SendFrontendStatic)
+
+	// Force frontend application for prevent 404 fallthrough
+	app.Get("/auth", handlers.SendFrontendStatic)
+	app.Get("/shared/*/*", handlers.SendFrontendStatic)
 
 	app.Use(jwtware.New(jwtware.Config{
 		SigningKey: []byte(os.Getenv("JWT_SECRET_KEY")),
