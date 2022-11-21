@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"github.com/RomanShirov/notesmd-service/internal/models"
+	"github.com/teris-io/shortid"
 )
 
 func CreateUser(ctx context.Context, user models.AuthUserRequest) (int, error) {
@@ -26,6 +27,16 @@ func AuthenticateUser(ctx context.Context, username string) (int, string, error)
 	}
 
 	return uid, passwordHash, nil
+}
+
+func GetUsernameFromId(ctx context.Context, uid float64) (string, error) {
+	var username string
+	err = dbConn.QueryRow(context.Background(), "SELECT username FROM users WHERE id=$1", uid).Scan(&username)
+	if err != nil {
+		return "", err
+	}
+
+	return username, nil
 }
 
 func GetNotesBySelectedFolder(ctx context.Context, uid float64, folder string) ([]models.NoteListResponse, error) {
@@ -73,6 +84,19 @@ func UpdateNote(ctx context.Context, uid float64, payload models.UpdateNoteReque
 	}
 
 	return nil
+}
+
+func ShareNote(ctx context.Context, uid float64, noteId string) (string, error) {
+	shareNoteId, _ := shortid.Generate()
+	var id int
+	err = dbConn.QueryRow(context.Background(),
+		"UPDATE notes SET public_id = $1 WHERE id = $2 AND uploader_id = $3 AND public_id IS NULL RETURNING id",
+		shareNoteId, noteId, uid).Scan(&id)
+	if err != nil || id == 0 {
+		return "", err
+	}
+
+	return shareNoteId, nil
 }
 
 func DeleteNote(ctx context.Context, uid float64, noteId string) error {

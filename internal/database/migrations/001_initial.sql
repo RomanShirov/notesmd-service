@@ -4,7 +4,6 @@ CREATE TABLE users
     id            SERIAL PRIMARY KEY,
     username      text UNIQUE NOT NULL,
     password_hash text        NOT NULL,
-    published     text[],
     created_at    timestamp DEFAULT NOW()
 );
 
@@ -15,7 +14,7 @@ CREATE TABLE notes
     folder      text NOT NULL,
     title       text NOT NULL,
     data        text,
-    hash        text,
+    public_id   text,
     updated_at  timestamp DEFAULT NOW()
 );
 

@@ -12,6 +12,7 @@ require (
 	github.com/lib/pq v1.10.6
 	github.com/pressly/goose/v3 v3.7.0
 	github.com/sirupsen/logrus v1.9.0
+	github.com/teris-io/shortid v0.0.0-20220617161101-71ec9f2aa569
 	golang.org/x/crypto v0.0.0-20220829220503-c86fa9a7ed90
 )
 
