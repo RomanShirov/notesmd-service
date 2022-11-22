@@ -16,16 +16,16 @@ service-run:
 	cd build && clear && ./app
 
 
-service-clear:
+clear:
 	rm -r build/
 	yes | rm -r internal/web/notesmd-app
 	clear
 
-service-reset:
+reset:
 	docker-compose down --remove-orphans
 	make service-clear
 
-make rebuild:
+rebuild:
 	make service-reset
 	make service-build
 	make service-run
