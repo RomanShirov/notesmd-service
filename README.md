@@ -16,7 +16,9 @@ Fast  and lightweight back-end for [NotesMD](https://github.com/RomanShirov/note
 + JWT — Authorization tokens
 
 ## Performance
-![Tested in single thread. Average CPU load: 5-8%, RAM: 40-50 mb.](https://user-images.githubusercontent.com/47012273/203384982-e5f00ee8-dd34-48b4-bd9a-3b0f38639e62.png)
+Tested in single thread. Average CPU load: 5-8%, RAM: 40-50 mb.
+
+![](https://user-images.githubusercontent.com/47012273/203384982-e5f00ee8-dd34-48b4-bd9a-3b0f38639e62.png)
 
 ## Deploy
 
