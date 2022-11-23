@@ -23,10 +23,10 @@ clear:
 
 reset:
 	docker-compose down --remove-orphans
-	make service-clear
+	make clear
 
 rebuild:
-	make service-reset
+	make reset
 	make service-build
 	make service-run
 
