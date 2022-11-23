@@ -10,6 +10,20 @@ import (
 	"os"
 )
 
+func GetSharedNote(c *fiber.Ctx) error {
+	sharedNoteId := c.Params("shared_id")
+
+	sharedNote, err := db.GetSharedNote(context.Background(), sharedNoteId)
+	if err != nil && sharedNote.Title == "" {
+		return c.SendStatus(fiber.StatusNotFound)
+	}
+
+	return c.JSON(fiber.Map{
+		"title": sharedNote.Title,
+		"data":  sharedNote.Data,
+	})
+}
+
 func InitNotesAPI(app *fiber.App) {
 	notes := app.Group("/api/notes")
 
@@ -21,20 +35,6 @@ func InitNotesAPI(app *fiber.App) {
 			return c.SendStatus(fiber.StatusNotFound)
 		}
 		return c.JSON(notes)
-	})
-
-	notes.Get("/shared/:shared_note_id", func(c *fiber.Ctx) error {
-		sharedNoteId := c.Params("shared_note_id")
-
-		sharedNote, err := db.GetSharedNote(context.Background(), sharedNoteId)
-		if err != nil && sharedNote.Title == "" {
-			return c.SendStatus(fiber.StatusNotFound)
-		}
-
-		return c.JSON(fiber.Map{
-			"title": sharedNote.Title,
-			"data":  sharedNote.Data,
-		})
 	})
 
 	notes.Put("/", func(c *fiber.Ctx) error {

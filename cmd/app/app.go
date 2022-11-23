@@ -65,6 +65,7 @@ func main() {
 	// Force frontend application for prevent 404 fallthrough
 	app.Get("/auth", handlers.SendFrontendStatic)
 	app.Get("/shared/*/*", handlers.SendFrontendStatic)
+	app.Get("/api/notes/shared/:shared_id", handlers.GetSharedNote)
 
 	app.Use(jwtware.New(jwtware.Config{
 		SigningKey: []byte(os.Getenv("JWT_SECRET_KEY")),
