@@ -64,6 +64,17 @@ func GetNotesBySelectedFolder(ctx context.Context, uid float64, folder string) (
 	return notes, nil
 }
 
+func GetSharedNote(ctx context.Context, publicId string) (models.SharedNoteListResponse, error) {
+	var notes models.SharedNoteListResponse
+	err = dbConn.QueryRow(context.Background(),
+		"SELECT title, data FROM notes WHERE public_id = $1", publicId).Scan(&notes.Title, &notes.Data)
+	if err != nil {
+		return models.SharedNoteListResponse{}, err
+	}
+
+	return notes, nil
+}
+
 func CreateNote(ctx context.Context, uid float64, payload models.CreateNoteRequest) (int, error) {
 	var id int
 	err = dbConn.QueryRow(context.Background(),

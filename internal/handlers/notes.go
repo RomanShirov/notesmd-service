@@ -23,6 +23,20 @@ func InitNotesAPI(app *fiber.App) {
 		return c.JSON(notes)
 	})
 
+	notes.Get("/shared/:shared_note_id", func(c *fiber.Ctx) error {
+		sharedNoteId := c.Params("shared_note_id")
+
+		sharedNote, err := db.GetSharedNote(context.Background(), sharedNoteId)
+		if err != nil && sharedNote.Title == "" {
+			return c.SendStatus(fiber.StatusNotFound)
+		}
+
+		return c.JSON(fiber.Map{
+			"title": sharedNote.Title,
+			"data":  sharedNote.Data,
+		})
+	})
+
 	notes.Put("/", func(c *fiber.Ctx) error {
 		encodedRequest := new(models.CreateNoteRequest)
 		userId := crypto.GetUserIdFromToken(c)
@@ -40,7 +54,7 @@ func InitNotesAPI(app *fiber.App) {
 		return c.JSON(fiber.Map{"id": noteId})
 	})
 
-	notes.Put("/share/:note_id", func(c *fiber.Ctx) error {
+	notes.Put("/shared/:note_id", func(c *fiber.Ctx) error {
 		requestNoteId := c.Params("note_id")
 		userId := crypto.GetUserIdFromToken(c)
 		username, err := db.GetUsernameFromId(context.Background(), userId)
