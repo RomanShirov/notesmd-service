@@ -13,6 +13,11 @@ type NoteListResponse struct {
 	Data       interface{} `json:"data"`
 }
 
+type SharedNoteListResponse struct {
+	Title string      `json:"title"`
+	Data  interface{} `json:"data"`
+}
+
 type CreateNoteRequest struct {
 	Folder string      `json:"folder" form:"folder"`
 	Title  string      `json:"title" form:"title"`
