@@ -25,15 +25,17 @@ Tested in single thread. Average CPU load during the test: 5-8%, RAM: 40-50 mb.
 ```sh
 git clone https://github.com/RomanShirov/notesmd-service
 cd notesmd-service
+make load-frontend
 ```
-Add `.env` configuration file like `.env.example` and set your parameters, and:
+* Add `.env` configuration file like `.env.example` and set your parameters.
+* Go to `internal/web/notesmd-app/frontend` directory and create `.env` file with `VUE_APP_IP` field, where IP — IP Address of your back-end server. Then:
 
 ```sh
 make service-build
-make make service-run
+make service-run
 ```
 
-This will install all dependencies, download and build static front-end files, and run the necessary Docker containers.
+This will install all dependencies for front-end, run the necessary Docker containers and run your application service.
 
 ## Additional Makefile commands
 
@@ -45,9 +47,4 @@ make clear
 Same as make clear, but also removing Docker containers (!) and drops db:
 ```sh
 make reset
-```
-
-Removes all build files, containers, rebuild and run a service:
-```sh
-make rebuild
 ```
