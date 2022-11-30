@@ -10,6 +10,9 @@ build:
 run:
 	docker-compose --env-file .env up -d
 
+run-debug:
+	docker-compose --env-file .env up
+
 run-docker-build:
 	docker-compose --env-file .env up --build -d
 
