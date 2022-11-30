@@ -1,6 +1,6 @@
 # NotesMD Service
 
-Fast  and lightweight back-end for [NotesMD](https://github.com/RomanShirov/notesmd-app) app, writed on Fiber framework. Includes Prometheus and Grafana to collect metrics.
+Fast  and lightweight backend for [NotesMD](https://github.com/RomanShirov/notesmd-app) app, writed on Fiber framework. Includes Prometheus and Grafana to collect metrics.
 
 ## Dependencies
 
@@ -25,21 +25,26 @@ Tested in single thread. Average CPU load during the test: 5-8%, RAM: 40-50 mb.
 ```sh
 git clone https://github.com/RomanShirov/notesmd-service
 cd notesmd-service
-make load-frontend
+make frontend
 ```
 * Add `.env` configuration file like `.env.example` and set your parameters.
-* Go to `internal/web/notesmd-app/frontend` directory and create `.env` file with `VUE_APP_IP` field, where IP — IP Address of your back-end server. Then:
+* Go to `internal/web/notesmd-app/frontend` directory and create `.env` file with `VUE_APP_IP` field, where IP — IP Address of your backend server. Then:
 
 ```sh
-make service-build
-make service-run
+make build
+make run
 ```
 
-This will install all dependencies for front-end, run the necessary Docker containers and run your application service.
+This will install all dependencies for frontend, run the necessary Docker containers and run your application service.
+
+For stop the application, use:
+```sh
+docker-compose down
+```
 
 ## Additional Makefile commands
 
-Clean `/build` and front-end files:
+Clean frontend files:
 ```sh
 make clear
 ```
@@ -47,4 +52,9 @@ make clear
 Same as make clear, but also removing Docker containers (!) and drops db:
 ```sh
 make reset
+```
+
+Run application with rebuild Docker containers (Required after modifying the Dockerfile)
+```sh
+make run-docker-build
 ```
