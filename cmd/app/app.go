@@ -13,7 +13,6 @@ import (
 	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
 	"os"
-	"time"
 )
 
 func main() {
@@ -50,17 +49,19 @@ func main() {
 	}))
 
 	app.Static("/", "./assets", fiber.Static{
-		Compress:      true,
-		ByteRange:     true,
-		Browse:        true,
-		Index:         "index.html",
-		CacheDuration: 3600 * time.Second,
-		MaxAge:        3600,
+		Compress:  true,
+		ByteRange: true,
+		Browse:    true,
+		Index:     "index.html",
+	})
+
+	app.Get("/", handlers.SendFrontendStatic)
+
+	app.Get("/health", func(c *fiber.Ctx) error {
+		return c.SendString("OK")
 	})
 
 	handlers.InitAuthHandlers(app)
-
-	app.Get("/", handlers.SendFrontendStatic)
 
 	// Force frontend application for prevent 404 fallthrough
 	app.Get("/auth", handlers.SendFrontendStatic)
