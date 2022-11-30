@@ -9,9 +9,7 @@ import (
 )
 
 func InitAuthHandlers(app *fiber.App) {
-	auth := app.Group("/api")
-
-	auth.Post("/register", func(c *fiber.Ctx) error {
+	app.Post("/register", func(c *fiber.Ctx) error {
 		username := c.FormValue("username")
 		password := c.FormValue("password")
 
@@ -29,7 +27,7 @@ func InitAuthHandlers(app *fiber.App) {
 		})
 	})
 
-	auth.Post("/login", func(c *fiber.Ctx) error {
+	app.Post("/login", func(c *fiber.Ctx) error {
 		username := c.FormValue("username")
 		password := c.FormValue("password")
 		uid, passwordHash, err := db.AuthenticateUser(context.Background(), username)
