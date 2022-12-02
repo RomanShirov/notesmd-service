@@ -7,6 +7,7 @@ import (
 	db "github.com/RomanShirov/notesmd-service/internal/database"
 	"github.com/RomanShirov/notesmd-service/internal/models"
 	"github.com/gofiber/fiber/v2"
+	"net/url"
 	"os"
 )
 
@@ -29,8 +30,9 @@ func InitNotesAPI(app *fiber.App) {
 
 	notes.Get("/:folder", func(c *fiber.Ctx) error {
 		requestFolder := c.Params("folder")
+		folder, _ := url.PathUnescape(requestFolder)
 		userId := crypto.GetUserIdFromToken(c)
-		notes, err := db.GetNotesBySelectedFolder(context.Background(), userId, requestFolder)
+		notes, err := db.GetNotesBySelectedFolder(context.Background(), userId, folder)
 		if err != nil {
 			return c.SendStatus(fiber.StatusNotFound)
 		}
