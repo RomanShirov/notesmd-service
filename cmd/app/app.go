@@ -13,6 +13,7 @@ import (
 	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
 	"os"
+	"time"
 )
 
 func main() {
@@ -49,10 +50,12 @@ func main() {
 	}))
 
 	app.Static("/", "./assets", fiber.Static{
-		Compress:  true,
-		ByteRange: true,
-		Browse:    true,
-		Index:     "index.html",
+		Compress:      true,
+		ByteRange:     true,
+		Browse:        true,
+		Index:         "index.html",
+		CacheDuration: 3600 * time.Second,
+		MaxAge:        3600,
 	})
 
 	app.Get("/", handlers.SendFrontendStatic)
