@@ -15,11 +15,6 @@ Fast  and lightweight backend for [NotesMD](https://github.com/RomanShirov/notes
 + Bcrypt — Password hash generating
 + JWT — Authorization tokens
 
-## Performance
-Tested in single thread. Average CPU load during the test: 5-8%, RAM: 40-50 mb.
-
-![](https://user-images.githubusercontent.com/47012273/203384982-e5f00ee8-dd34-48b4-bd9a-3b0f38639e62.png)
-
 ## Deploy
 
 ```sh
